@@ -53,7 +53,7 @@ y_test_categorical <- keras::to_categorical(y_test_base)
 
 #Create MLP model
 model_default <- keras_model_sequential()
-model_default <- layer_dense(object = model_default, units = 256, input_shape = c(784))
+model_default <- layer_dense(object = model_default, units = 256, input_shape = 784)
 model_default <- layer_dense(object = model_default, units = 10, activation = 'softmax')
 
 #Compile model
@@ -61,7 +61,7 @@ model_default <- compile(
   object = model_default,
   loss = 'categorical_crossentropy',
   optimizer = optimizer_rmsprop(),
-  metrics = c('accuracy')
+  metrics = 'accuracy'
 )
 
 #Fitting the model
@@ -93,7 +93,7 @@ print(score_model_default)
 
 #Create MLP model with relu activation
 model_relu <- keras_model_sequential()
-model_relu <- layer_dense(object = model_relu, units = 256, input_shape = c(784))
+model_relu <- layer_dense(object = model_relu, units = 256, input_shape = 784)
 model_relu <- layer_dense(object = model_relu, units = 10, activation = 'softmax')
 
 #Compile model
@@ -101,7 +101,7 @@ model_relu <- compile(
   object = model_relu,
   loss = 'categorical_crossentropy',
   optimizer = optimizer_rmsprop(),
-  metrics = c('accuracy')
+  metrics = 'accuracy'
 )
 
 #Fitting the model
@@ -144,7 +144,6 @@ print(score_model_relu)
 tensorboard("logs")
 
 #------------------Evaluation_end--------------------#
-
 
 
 #Old code saved because throwing away is not environmentally friendly
