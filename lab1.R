@@ -93,7 +93,7 @@ print(score_model_default)
 
 #Create MLP model with relu activation
 model_relu <- keras_model_sequential()
-model_relu <- layer_dense(object = model_relu, units = 256, input_shape = 784)
+model_relu <- layer_dense(object = model_relu, units = 256, input_shape = 784, activation = 'relu')
 model_relu <- layer_dense(object = model_relu, units = 10, activation = 'softmax')
 
 #Compile model
