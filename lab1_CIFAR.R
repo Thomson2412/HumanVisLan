@@ -75,8 +75,8 @@ model_dcn_cifar <- compile(
 #Fitting the model
 history_model_dcn_cifar <- fit(
   object = model_dcn_cifar,
-  x = x_train_base,
-  y = y_train_base,
+  x = x_train_rescale,
+  y = y_train_categorical,
   batch_size = 32,
   epochs = 20,
   verbose = 1,
