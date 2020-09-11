@@ -46,7 +46,7 @@ y_test_categorical <- keras::to_categorical(y_test_base)
 
 
 
-#----------------------Model_drop------------------------#
+#----------------------Model_cifar------------------------#
 
 model_dcn_cifar <- keras_model_sequential()
 model_dcn_cifar <- layer_conv_2d(model_dcn_cifar, filters = 32, kernel_size = c(3,3), activation = 'relu', input_shape = c(32, 32, 3), padding = "same")
@@ -75,11 +75,12 @@ model_dcn_cifar <- compile(
 #Fitting the model
 history_model_dcn_cifar <- fit(
   object = model_dcn_cifar,
-  validation_data = list(x_test_rescale, y_test_categorical),
+  x = x_train_base,
+  y = y_train_base,
   batch_size = 32,
   epochs = 20,
   verbose = 1,
-  validation_split = 0.2,
+  validation_data = list(x_test_rescale, y_test_categorical),
   shuffle = TRUE,
   callback_tensorboard(log_dir = "logs/model_dcn_cifar")
 )
@@ -93,7 +94,7 @@ score_model_dcn_cifar <- evaluate(
 )
 print(score_model_dcn_cifar)
 
-#--------------------Model_drop_end----------------------#
+#--------------------Model_cifar_end----------------------#
 
 
 #--------------------Evaluation----------------------#
