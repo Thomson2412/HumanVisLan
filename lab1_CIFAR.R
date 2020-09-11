@@ -12,7 +12,7 @@ library(keras)
 library(kerasR)
 
 #Make sure kerasR can find python??? IDK
-#kerasR::keras_init()
+kerasR::keras_init()
 
 #Make sure keras is installed
 #install_keras()
@@ -89,7 +89,8 @@ print(history_model_dcn_cifar)
 #Generate model score
 score_model_dcn_cifar <- evaluate(
   object = model_dcn_cifar,
-  validation_data = list(x_test_rescale, y_test_categorical),
+  x = x_test_rescale, 
+  y = y_test_categorical,
   verbose = 0
 )
 print(score_model_dcn_cifar)
