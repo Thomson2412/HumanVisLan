@@ -19,11 +19,11 @@ filter_edge_extreme <- matrix(c(
   -1, -1, -1), 3, 3)
 
 filters_matrix <- array(c(filter_edge, filter_edge_extreme), dim = c(3,3,2))
-dim(abind(filter_edge, filter_edge_extreme,rev.along=0))
+#dim(abind(filter_edge, filter_edge_extreme,rev.along=0))
 
 conv_with_filter <- function (inputs, filters){
 
-  input_amount <- tail(dim(inputs), n=1)
+  input_amount <- 1#tail(dim(inputs), n=1)
   filter_amount <- tail(dim(filters), n=1)
   ysteps <- (nrow(inputs) - nrow(filters)) + 1
   xsteps <- (ncol(inputs) - ncol(filters)) + 1
@@ -51,3 +51,6 @@ conv_with_filter <- function (inputs, filters){
 
 result <- conv_with_filter(input_image, filters_matrix)
 image(result[,,1])
+image(result[,,2])
+image(img_gray)
+
