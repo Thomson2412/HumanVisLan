@@ -108,3 +108,10 @@ image(img_gray)
 image(result_multiple[, , 1])
 image(result_multiple[, , 2])
 image(result_multiple[, , 3])
+
+
+relu_activation <- function (input_feature_map){
+  feature_copy <- input_feature_map
+  feature_copy[input_copy < 0] <- 0
+  return(feature_copy)
+}
