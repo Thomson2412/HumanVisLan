@@ -76,6 +76,10 @@ conv_with_filter <- function(input_layer, input_filters) {
   return(result_matrix)
 }
 
+relu_activation <- function (input_feature_map){
+  return(pmax(input_feature_map, 0))
+}
+
 #Run with single input image as input layer and one filter layer
 single_filter_3D <- filter_edge
 dim(single_filter_3D) <- c(nrow(single_filter_3D), ncol(single_filter_3D), 1)
@@ -109,9 +113,6 @@ image(result_multiple[, , 1])
 image(result_multiple[, , 2])
 image(result_multiple[, , 3])
 
-
-relu_activation <- function (input_feature_map){
-  feature_copy <- input_feature_map
-  feature_copy[input_copy < 0] <- 0
-  return(feature_copy)
-}
+image(relu_activation(result_multiple[, , 1]))
+image(relu_activation(result_multiple[, , 2]))
+image(relu_activation(result_multiple[, , 3]))
