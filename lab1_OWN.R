@@ -1,4 +1,5 @@
 #Load libs
+library(dplyr)
 library(imager)
 
 img_gray <- grayscale(boats)[, , , 1]
@@ -77,7 +78,54 @@ conv_with_filter <- function(input_layer, input_filters) {
 }
 
 relu_activation <- function (input_feature_map){
+  if (length(dim(input_feature_map)) != 2) {
+    print("Input not 2D")
+    return(NULL)
+  }
   return(pmax(input_feature_map, 0))
+}
+
+max_pooling <- function(input_layer, pool_y_size, pool_x_size) {
+  if (length(dim(input_layer)) != 2) {
+    print("Input not 2D")
+    return(NULL)
+  }
+
+  #Calculate how many steps the filter should "walk" over the input matrix
+  ysteps <- ceiling(nrow(input_layer) / pool_y_size)
+  xsteps <- ceiling(ncol(input_layer) / pool_x_size)
+
+  #Generate empty pool matrix to be accumilated below
+  pool_matrix <- matrix(0, nrow = ysteps, ncol = xsteps)
+  #Walk over input with filter: per row "walk" over every colum
+  for (ypos in 1:ysteps) {
+    for (xpos in 1:xsteps) {
+      #Create pool dimensions, don't go over the edge
+      yoffset_min <- ((ypos * pool_y_size) - pool_y_size) + 1
+      xoffset_min <- ((xpos * pool_x_size) - pool_x_size) + 1
+      yoffset_max <- yoffset_min + pool_y_size - 1
+      xoffset_max <- xoffset_min + pool_x_size - 1
+      if(yoffset_max > nrow(input_layer))
+        yoffset_max <- nrow(input_layer)
+      if(xoffset_max > ncol(input_layer))
+        xoffset_max <- ncol(input_layer)
+      #Grab a submatrix from the input by above created dimensions
+      input_submatrix <- input_layer[yoffset_min:yoffset_max, xoffset_min:xoffset_max]
+      #Max the input submatrix
+      pool_matrix[ypos, xpos] <- max(input_submatrix)
+    }
+  }
+
+  return(pool_matrix)
+}
+
+normalize_zero <- function (input_layer){
+  if (length(dim(input_layer)) != 2) {
+    print("Input not 2D")
+    return(NULL)
+  }
+  scaled <- as.matrix(scale(as.data.frame(input_layer)))
+  return(scaled)
 }
 
 #Run with single input image as input layer and one filter layer
@@ -116,3 +164,12 @@ image(result_multiple[, , 3])
 image(relu_activation(result_multiple[, , 1]))
 image(relu_activation(result_multiple[, , 2]))
 image(relu_activation(result_multiple[, , 3]))
+
+pool_result <- max_pooling(result_multiple[, , 1], 8, 8)
+image(pool_result)
+
+normalize_result <- normalize_zero(pool_result)
+image(normalize_result)
+mean(normalize_result)
+sd(normalize_result)
+hist(normalize_result)
