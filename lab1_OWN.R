@@ -124,7 +124,7 @@ normalize_zero <- function (input_layer){
     print("Input not 2D")
     return(NULL)
   }
-  scaled <- as.matrix(scale(as.data.frame(input_layer)))
+  scaled <- (input_layer - mean(input_layer)) / sd(input_layer)
   return(scaled)
 }
 
