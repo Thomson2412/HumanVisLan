@@ -128,6 +128,22 @@ normalize_zero <- function (input_layer){
   return(scaled)
 }
 
+fully_connected <- function(input_layers, neurons){
+  input_flatten <- input_layers
+  if (length(dim(input_flatten)) > 1) {
+    #flatten matrix to 1D vector
+    dim(input_flatten) <- NULL
+  }
+
+  hidden_layer <- array(0, dim = neurons)
+  for(neuron_it in 1:neurons){
+    bias <- runif(1)
+    weight_list <- array(runif(1), dim = length(input_flatten))
+    hidden_layer[[neuron_it]] <- sum((input_flatten * weight_list) + bias)
+  }
+  return(hidden_layer)
+}
+
 #Run with single input image as input layer and one filter layer
 single_filter_3D <- filter_edge
 dim(single_filter_3D) <- c(nrow(single_filter_3D), ncol(single_filter_3D), 1)
@@ -173,3 +189,5 @@ image(normalize_result)
 mean(normalize_result)
 sd(normalize_result)
 hist(normalize_result)
+
+test <- fully_connected(normalize_result, 10)
