@@ -137,11 +137,16 @@ fully_connected <- function(input_layers, neurons){
 
   hidden_layer <- array(0, dim = neurons)
   for(neuron_it in 1:neurons){
-    bias <- runif(1)
     weight_list <- array(runif(1), dim = length(input_flatten))
-    hidden_layer[[neuron_it]] <- sum((input_flatten * weight_list) + bias)
+    hidden_layer[[neuron_it]] <- sum((input_flatten * weight_list))
   }
   return(hidden_layer)
+}
+
+softmax_activation <- function(input_layer){
+  scaled <- (input_layer - mean(input_layer)) / sd(input_layer)
+  result <- exp(scaled) / sum(exp(scaled))
+  return(result)
 }
 
 #Run with single input image as input layer and one filter layer
@@ -190,4 +195,7 @@ mean(normalize_result)
 sd(normalize_result)
 hist(normalize_result)
 
-test <- fully_connected(normalize_result, 10)
+fully_result <- fully_connected(normalize_result, 10)
+
+softmax_prob <- softmax_activation(fully_result)
+sum(softmax_prob)
